@@ -12,11 +12,17 @@ namespace Redis_Client
 {
     public partial class ClientView : Form
     {
+        int clnId = -1;
         public ClientView()
         {
             InitializeComponent();
         }
 
+        public void Init(int clientId)
+        {
+            clnId = clientId;
+            Console.WriteLine(clnId);
+        }
         private void ClientView_Load(object sender, EventArgs e)
         {
 

@@ -15,12 +15,13 @@ namespace Redis_Client
         readonly string ClientName = "ClnName:";
         readonly string ClientPsw = "ClnPsw:";
         readonly string ClientMail = "ClnMail:";
+        IDatabase db;
         public bool FindClient(string username, string password)
         {
-            IDatabase db = redis.GetDatabase();
+            db = redis.GetDatabase();
             if (db.KeyExists(ClientName + username) && db.KeyExists(ClientPsw + password))
             {
-                var intersection = db.SetCombine(SetOperation.Intersect, ClientName + username, ClientPsw + password);
+                RedisValue [] intersection = db.SetCombine(SetOperation.Intersect, ClientName + username, ClientPsw + password);
                 if (intersection.Length == 1) return true;
             }
             return false;
@@ -30,7 +31,7 @@ namespace Redis_Client
             int iNameID;
             string sNameID;
 
-            IDatabase db = redis.GetDatabase();
+            db = redis.GetDatabase();
             sNameID = db.StringGet(ClientNamesCounter);
 
             if (!Int32.TryParse(sNameID, out iNameID))
@@ -51,14 +52,24 @@ namespace Redis_Client
 
         public bool IsUsernameExist(string username)
         {
-            IDatabase db = redis.GetDatabase();
+            db = redis.GetDatabase();
             return db.KeyExists(ClientName + username);
         }
 
         public bool IsMailExist(string mail)
         {
-            IDatabase db = redis.GetDatabase();
+            db = redis.GetDatabase();
             return db.KeyExists(ClientMail + mail);
+        }
+
+        public int GetId(string username)
+        {
+            db = redis.GetDatabase();
+
+            RedisValue [] members = db.SetMembers(ClientName + username);
+            
+            if (members.Length == 1) return (int)members.First();
+            else return -1;
         }
     }
 }

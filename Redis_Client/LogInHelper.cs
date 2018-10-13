@@ -8,20 +8,24 @@ namespace Redis_Client
 {
     class LogInHelper
     {
-        public string LogIn(string username, string password)
+        AppError appErr = new AppError();
+        public int LogIn(string username, string password)
         {
             RedisUtil rUtil = new RedisUtil();
 
-            if (rUtil.FindClient(username, password) == false) return "Invalid name or password";
-            else return "";
+            if (rUtil.FindClient(username, password) == true) return rUtil.GetId(username);
+            else
+            {
+                appErr.ShowErrorMsg("Invalid username or password");
+                return -1;
+            }
         }
-
-        public string Register(string username, string password, string mail)
+        public int Register(string username, string password, string mail)
         {
             RedisUtil rUtil = new RedisUtil();
             //if (username.Length < 8)
             //{
-            //    return "Name is too short";
+            //    appErr.ShowErrorMsg("Name is too short");
             //}
             //else if (password.Length < 8)
             //{
@@ -29,17 +33,18 @@ namespace Redis_Client
             //}
             if (rUtil.IsUsernameExist(username) == true)
             {
-                return "This name is already in use. Choose different name";
+                appErr.ShowErrorMsg("This name is already in use. Choose different name");
             }
             else if (rUtil.IsMailExist(mail) == true)
             {
-                return "This mail is already in use";
+                appErr.ShowErrorMsg("This mail is already in use");
             }
             else
             {
                 rUtil.CreateClient(username, password, mail);
+                return rUtil.GetId(username);
             }
-            return "";
+            return -1;
         }
     }
 }

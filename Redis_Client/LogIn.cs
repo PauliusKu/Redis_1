@@ -12,7 +12,7 @@ namespace Redis_Client
 {
     public partial class LogIn : Form
     {
-        String error = "";
+        int clnId = -1;
         Boolean first_time_clickName = true;
         Boolean first_time_clickPsw = true;
         Boolean first_time_clickMail = true;
@@ -41,10 +41,12 @@ namespace Redis_Client
             string username = textBoxName.Text;
             string password = textBoxPsw.Text;
 
-            error = loginhelper.LogIn(username, password);
+            clnId = loginhelper.LogIn(username, password);
 
-            if (error == "") GoToClientView();
-            else ShowMessage(error);
+            loginhelper = null;
+            GC.Collect();
+
+            GoToClientView();
         }
 
         private void ButRegister_Click(object sender, EventArgs e)
@@ -60,13 +62,12 @@ namespace Redis_Client
                 string username = textBoxName.Text;
                 string password = textBoxPsw.Text;
                 string mail = textBoxMail.Text;
-                error = loginhelper.Register(username, password, mail);
+                clnId = loginhelper.Register(username, password, mail);
 
                 loginhelper = null;
                 GC.Collect();
 
-                if (error == "") GoToClientView();
-                else ShowMessage(error);
+                GoToClientView();
             }
         }
 
@@ -100,15 +101,14 @@ namespace Redis_Client
         private void GoToClientView()
         {
             ClientView clientview = new ClientView();
-            this.Hide();
-            clientview.ShowDialog();
-            this.Close();
-        }
 
-        private void ShowMessage(string message)
-        {
-            MessageBox.Show(message, "Error",
-            MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (clnId >= 0)
+            {
+                this.Hide();
+                clientview.ShowDialog();
+                clientview.Init(clnId);
+                this.Close();
+            }
         }
     }
 }
