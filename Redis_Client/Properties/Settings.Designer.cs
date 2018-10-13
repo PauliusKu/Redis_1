@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Redis_1.Properties
+namespace Redis_Client.Properties
 {
 
 

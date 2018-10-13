@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Redis_1
+namespace Redis_Client
 {
-    static class Program
+    static class ProgramCln
     {
         /// <summary>
         /// The main entry point for the application.
