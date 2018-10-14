@@ -1,6 +1,6 @@
-﻿namespace Redis_1
+﻿namespace Redis_Client
 {
-    partial class Form1
+    partial class Order
     {
         /// <summary>
         /// Required designer variable.
@@ -28,20 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.ButtonOrder = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // Form1
+            // ButtonOrder
+            // 
+            this.ButtonOrder.Location = new System.Drawing.Point(51, 76);
+            this.ButtonOrder.Name = "ButtonOrder";
+            this.ButtonOrder.Size = new System.Drawing.Size(175, 90);
+            this.ButtonOrder.TabIndex = 0;
+            this.ButtonOrder.Text = "Order";
+            this.ButtonOrder.UseVisualStyleBackColor = true;
+            this.ButtonOrder.Click += new System.EventHandler(this.ButtonOrder_Click);
+            // 
+            // Order
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 521);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(276, 258);
+            this.Controls.Add(this.ButtonOrder);
+            this.Name = "Order";
+            this.Text = "Order";
+            this.Load += new System.EventHandler(this.Order_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Button ButtonOrder;
     }
 }
-

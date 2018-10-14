@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6ACF27A2-5496-46E7-AA41-9E52712DE850}</ProjectGuid>
+    <ProjectGuid>{42790489-84A2-4432-A996-25481D4BF0E6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Redis_1</RootNamespace>
-    <AssemblyName>Redis_1</AssemblyName>
+    <RootNamespace>Redis_Client</RootNamespace>
+    <AssemblyName>Redis_Client</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -77,16 +77,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="AppError.cs" />
+    <Compile Include="BankUtil.cs" />
+    <Compile Include="ClientView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ClientView.Designer.cs">
+      <DependentUpon>ClientView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="ClientViewHelper.cs" />
+    <Compile Include="FlightUtil.cs" />
+    <Compile Include="LogIn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogIn.Designer.cs">
+      <DependentUpon>LogIn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LogInHelper.cs" />
+    <Compile Include="Order.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Order.Designer.cs">
+      <DependentUpon>Order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProgramCln.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ClientUtil.cs" />
+    <EmbeddedResource Include="ClientView.resx">
+      <DependentUpon>ClientView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogIn.resx">
+      <DependentUpon>LogIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Order.resx">
+      <DependentUpon>Order.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

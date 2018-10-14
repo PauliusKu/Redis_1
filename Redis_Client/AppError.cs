@@ -8,13 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Redis_1
+namespace Redis_Client
 {
-    public partial class Form1 : Form
+    class AppError
     {
-        public Form1()
+        public void ShowErrorMsg(string errCode)
         {
-            InitializeComponent();
+            MessageBox.Show(errCode, "Error",
+            MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
