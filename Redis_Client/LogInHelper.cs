@@ -11,8 +11,7 @@ namespace Redis_Client
         AppError appErr = new AppError();
         public int LogIn(string username, string password)
         {
-            RedisUtil rUtil = new RedisUtil();
-
+            ClientUtil rUtil = new ClientUtil();
             if (rUtil.FindClient(username, password) == true) return rUtil.GetId(username);
             else
             {
@@ -22,7 +21,7 @@ namespace Redis_Client
         }
         public int Register(string username, string password, string mail)
         {
-            RedisUtil rUtil = new RedisUtil();
+            ClientUtil rUtil = new ClientUtil();
             //if (username.Length < 8)
             //{
             //    appErr.ShowErrorMsg("Name is too short");

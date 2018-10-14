@@ -7,7 +7,7 @@ using StackExchange.Redis;
 
 namespace Redis_Client
 {
-    class RedisUtil
+    class ClientUtil
     {
         readonly ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("redis, 127.0.0.1:6379");
         readonly string ClientNamesCounter = "ClnNamesCount";
@@ -21,7 +21,7 @@ namespace Redis_Client
             db = redis.GetDatabase();
             if (db.KeyExists(ClientName + username) && db.KeyExists(ClientPsw + password))
             {
-                RedisValue [] intersection = db.SetCombine(SetOperation.Intersect, ClientName + username, ClientPsw + password);
+                RedisValue[] intersection = db.SetCombine(SetOperation.Intersect, ClientName + username, ClientPsw + password);
                 if (intersection.Length == 1) return true;
             }
             return false;
@@ -66,10 +66,17 @@ namespace Redis_Client
         {
             db = redis.GetDatabase();
 
-            RedisValue [] members = db.SetMembers(ClientName + username);
-            
+            RedisValue[] members = db.SetMembers(ClientName + username);
+
             if (members.Length == 1) return (int)members.First();
             else return -1;
+        }
+
+        public void GetClientInfo(int userID, out string username, out string mail)
+        {
+            db = redis.GetDatabase();
+            username = db.HashGet(ClientHash + userID, ClientName);
+            mail = db.HashGet(ClientHash + userID, ClientMail);
         }
     }
 }

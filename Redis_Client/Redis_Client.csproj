@@ -78,12 +78,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppError.cs" />
+    <Compile Include="BankUtil.cs" />
     <Compile Include="ClientView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ClientView.Designer.cs">
       <DependentUpon>ClientView.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClientViewHelper.cs" />
+    <Compile Include="FlightUtil.cs" />
     <Compile Include="LogIn.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,7 +96,7 @@
     <Compile Include="LogInHelper.cs" />
     <Compile Include="ProgramCln.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RedisUtil.cs" />
+    <Compile Include="ClientUtil.cs" />
     <EmbeddedResource Include="ClientView.resx">
       <DependentUpon>ClientView.cs</DependentUpon>
     </EmbeddedResource>

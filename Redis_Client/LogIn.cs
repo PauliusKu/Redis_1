@@ -64,9 +64,6 @@ namespace Redis_Client
                 string mail = textBoxMail.Text;
                 clnId = loginhelper.Register(username, password, mail);
 
-                loginhelper = null;
-                GC.Collect();
-
                 GoToClientView();
             }
         }
@@ -100,13 +97,12 @@ namespace Redis_Client
         }
         private void GoToClientView()
         {
-            ClientView clientview = new ClientView();
+            ClientView clientview = new ClientView(clnId);
 
             if (clnId >= 0)
             {
                 this.Hide();
                 clientview.ShowDialog();
-                clientview.Init(clnId);
                 this.Close();
             }
         }
