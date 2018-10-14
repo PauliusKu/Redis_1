@@ -37,14 +37,15 @@
             this.labelMoney = new System.Windows.Forms.Label();
             this.buttonMyFlights = new System.Windows.Forms.Button();
             this.buttonSystemFlights = new System.Windows.Forms.Button();
+            this.listViewSystem = new System.Windows.Forms.ListView();
             this.SuspendLayout();
             // 
             // listViewClient
             // 
             this.listViewClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.listViewClient.Location = new System.Drawing.Point(505, 102);
+            this.listViewClient.Location = new System.Drawing.Point(358, 27);
             this.listViewClient.Name = "listViewClient";
-            this.listViewClient.Size = new System.Drawing.Size(465, 403);
+            this.listViewClient.Size = new System.Drawing.Size(597, 478);
             this.listViewClient.TabIndex = 6;
             this.listViewClient.UseCompatibleStateImageBehavior = false;
             this.listViewClient.DoubleClick += new System.EventHandler(this.ListViewClient_DoubleClick);
@@ -53,7 +54,7 @@
             // 
             this.staticLabelUsername.AutoSize = true;
             this.staticLabelUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
-            this.staticLabelUsername.Location = new System.Drawing.Point(31, 28);
+            this.staticLabelUsername.Location = new System.Drawing.Point(44, 27);
             this.staticLabelUsername.Name = "staticLabelUsername";
             this.staticLabelUsername.Size = new System.Drawing.Size(150, 36);
             this.staticLabelUsername.TabIndex = 7;
@@ -63,7 +64,7 @@
             // 
             this.staticLabelMail.AutoSize = true;
             this.staticLabelMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
-            this.staticLabelMail.Location = new System.Drawing.Point(31, 102);
+            this.staticLabelMail.Location = new System.Drawing.Point(44, 133);
             this.staticLabelMail.Name = "staticLabelMail";
             this.staticLabelMail.Size = new System.Drawing.Size(88, 36);
             this.staticLabelMail.TabIndex = 8;
@@ -73,7 +74,7 @@
             // 
             this.staticLabelMoney.AutoSize = true;
             this.staticLabelMoney.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
-            this.staticLabelMoney.Location = new System.Drawing.Point(31, 175);
+            this.staticLabelMoney.Location = new System.Drawing.Point(44, 245);
             this.staticLabelMoney.Name = "staticLabelMoney";
             this.staticLabelMoney.Size = new System.Drawing.Size(105, 36);
             this.staticLabelMoney.TabIndex = 9;
@@ -83,44 +84,44 @@
             // 
             this.labelUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
             this.labelUsername.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelUsername.Location = new System.Drawing.Point(195, 31);
+            this.labelUsername.Location = new System.Drawing.Point(50, 77);
             this.labelUsername.Name = "labelUsername";
             this.labelUsername.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.labelUsername.Size = new System.Drawing.Size(273, 36);
             this.labelUsername.TabIndex = 10;
             this.labelUsername.Tag = "";
-            this.labelUsername.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelUsername.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelMail
             // 
             this.labelMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
             this.labelMail.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelMail.Location = new System.Drawing.Point(195, 102);
+            this.labelMail.Location = new System.Drawing.Point(49, 185);
             this.labelMail.Name = "labelMail";
             this.labelMail.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.labelMail.Size = new System.Drawing.Size(274, 36);
             this.labelMail.TabIndex = 11;
             this.labelMail.Tag = "";
-            this.labelMail.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelMail.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelMoney
             // 
             this.labelMoney.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
             this.labelMoney.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelMoney.Location = new System.Drawing.Point(195, 175);
+            this.labelMoney.Location = new System.Drawing.Point(45, 295);
             this.labelMoney.Name = "labelMoney";
             this.labelMoney.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.labelMoney.Size = new System.Drawing.Size(278, 36);
             this.labelMoney.TabIndex = 12;
             this.labelMoney.Tag = "";
-            this.labelMoney.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelMoney.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // buttonMyFlights
             // 
             this.buttonMyFlights.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.buttonMyFlights.Location = new System.Drawing.Point(505, 28);
+            this.buttonMyFlights.Location = new System.Drawing.Point(50, 372);
             this.buttonMyFlights.Name = "buttonMyFlights";
-            this.buttonMyFlights.Size = new System.Drawing.Size(178, 52);
+            this.buttonMyFlights.Size = new System.Drawing.Size(267, 52);
             this.buttonMyFlights.TabIndex = 13;
             this.buttonMyFlights.Text = "My Flights";
             this.buttonMyFlights.UseVisualStyleBackColor = true;
@@ -129,13 +130,25 @@
             // buttonSystemFlights
             // 
             this.buttonSystemFlights.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.buttonSystemFlights.Location = new System.Drawing.Point(792, 28);
+            this.buttonSystemFlights.Location = new System.Drawing.Point(49, 453);
             this.buttonSystemFlights.Name = "buttonSystemFlights";
-            this.buttonSystemFlights.Size = new System.Drawing.Size(178, 52);
+            this.buttonSystemFlights.Size = new System.Drawing.Size(268, 52);
             this.buttonSystemFlights.TabIndex = 14;
             this.buttonSystemFlights.Text = "Choose a flight";
             this.buttonSystemFlights.UseVisualStyleBackColor = true;
             this.buttonSystemFlights.Click += new System.EventHandler(this.ButtonSystemFlights_Click);
+            // 
+            // listViewSystem
+            // 
+            this.listViewSystem.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.listViewSystem.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
+            this.listViewSystem.Location = new System.Drawing.Point(358, 27);
+            this.listViewSystem.Name = "listViewSystem";
+            this.listViewSystem.Size = new System.Drawing.Size(597, 478);
+            this.listViewSystem.TabIndex = 15;
+            this.listViewSystem.UseCompatibleStateImageBehavior = false;
+            this.listViewSystem.Visible = false;
+            this.listViewSystem.DoubleClick += new System.EventHandler(this.ListViewClient_DoubleClick);
             // 
             // ClientView
             // 
@@ -145,6 +158,7 @@
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(982, 553);
+            this.Controls.Add(this.listViewSystem);
             this.Controls.Add(this.buttonSystemFlights);
             this.Controls.Add(this.buttonMyFlights);
             this.Controls.Add(this.labelMoney);
@@ -175,5 +189,6 @@
         private System.Windows.Forms.Label labelMoney;
         private System.Windows.Forms.Button buttonMyFlights;
         private System.Windows.Forms.Button buttonSystemFlights;
+        private System.Windows.Forms.ListView listViewSystem;
     }
 }

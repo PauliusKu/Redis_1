@@ -13,103 +13,120 @@ namespace Redis_Client
 {
     public partial class ClientView : Form
     {
-        int clnid = -1;
+        int clnId = -1;
         public ClientView(int clientId)
         {
-            clnid = clientId;
+            clnId = clientId;
             InitializeComponent();
         }
 
         private void ClientView_Load(object sender, EventArgs e)
         {
-            ClientViewHelper clnviewhelp = new ClientViewHelper(clnid);
-            clnviewhelp.GetAllClientInfo(out string username, out string mail, out decimal money);
-            labelUsername.Text = username;
-            labelMail.Text = mail;
-            labelMoney.Text = money.ToString(CultureInfo.InvariantCulture);
-            FormClientList();
+            RefreshWindow();
         }
 
         private void FormClientList()
         {
             listViewClient.Clear();
+            ClientViewHelper clnviewhelp = new ClientViewHelper(clnId);
+            string input = clnviewhelp.GetTable(true);
 
             listViewClient.View = View.Details;
             listViewClient.GridLines = true;
             listViewClient.FullRowSelect = true;
 
-            //Add column header
-            listViewClient.Columns.Add("Flight", 80);
-            listViewClient.Columns.Add("From-To", 150);
-            listViewClient.Columns.Add("Date", 80);
-            listViewClient.Columns.Add("Price", 70);
-            listViewClient.Columns.Add("Status", 80);
+            listViewClient.Columns.Add("FLIGHT", 80);
+            listViewClient.Columns.Add("FROM", 100);
+            listViewClient.Columns.Add("TO", 100);
+            listViewClient.Columns.Add("DATE", 80);
+            listViewClient.Columns.Add("COST", 80);
+            listViewClient.Columns.Add("LEFT TICKETS", 150);
 
-            //Add items in the listview
-            string[] arr = new string[4];
+            string[] arr = new string[7];
             ListViewItem itm;
 
-            //Add first item
-            arr[0] = "product_1";
-            arr[1] = "100";
-            arr[2] = "10";
-            itm = new ListViewItem(arr);
-            listViewClient.Items.Add(itm);
-
-            //Add second item
-            arr[0] = "product_2";
-            arr[1] = "200";
-            arr[2] = "20";
-            itm = new ListViewItem(arr);
-            listViewClient.Items.Add(itm);
+            string[] words = input.Split(';');
+            for (int itr = 0; itr < words.Length - 1; itr += 6)
+            {
+                for (int initr = 0; initr < 6; initr++)
+                {
+                    arr[initr] = words[initr + itr];
+                }
+                itm = new ListViewItem(arr);
+                listViewClient.Items.Add(itm);
+            }
         }
 
         private void FormSystemList()
         {
-            listViewClient.Clear();
+            listViewSystem.Clear();
+            ClientViewHelper clnviewhelp = new ClientViewHelper(clnId);
+            string input = clnviewhelp.GetTable(false);
 
-            listViewClient.View = View.Details;
-            listViewClient.GridLines = true;
-            listViewClient.FullRowSelect = true;
+            listViewSystem.View = View.Details;
+            listViewSystem.GridLines = true;
+            listViewSystem.FullRowSelect = true;
 
-            //Add column header
-            listViewClient.Columns.Add("ProbggbbggbductName", 100);
-            listViewClient.Columns.Add("Pribggbce", 70);
-            listViewClient.Columns.Add("Qugbgbantity", 70);
+            listViewSystem.Columns.Add("FLIGHT", 80);
+            listViewSystem.Columns.Add("FROM", 100);
+            listViewSystem.Columns.Add("TO", 100);
+            listViewSystem.Columns.Add("DATE", 80);
+            listViewSystem.Columns.Add("COST", 80);
+            listViewSystem.Columns.Add("LEFT TICKETS", 150);
 
-            //Add items in the listview
-            string[] arr = new string[4];
+            string[] arr = new string[7];
             ListViewItem itm;
 
-            //Add first item
-            arr[0] = "product_1";
-            arr[1] = "100";
-            arr[2] = "10";
-            itm = new ListViewItem(arr);
-            listViewClient.Items.Add(itm);
-
-            //Add second item
-            arr[0] = "product_2";
-            arr[1] = "200";
-            arr[2] = "20";
-            itm = new ListViewItem(arr);
-            listViewClient.Items.Add(itm);
+            string[] words = input.Split(';');
+            for (int itr = 0; itr < words.Length-1; itr += 6)
+            {
+                for (int initr = 0; initr < 6; initr++)
+                {
+                    arr[initr] = words[initr + itr];
+                }
+                itm = new ListViewItem(arr);
+                listViewSystem.Items.Add(itm);
+            }
         }
 
         private void ListViewClient_DoubleClick(object sender, EventArgs e)
         {
-
-            MessageBox.Show(listViewClient.SelectedItems[0].SubItems[0].Text);
+            int flightId;
+            if (Int32.TryParse(listViewSystem.SelectedItems[0].SubItems[0].Text, out flightId))
+            GoToOrder(flightId);
         }
 
         private void ButtonSystemFlights_Click(object sender, EventArgs e)
         {
-            FormSystemList();
+            listViewClient.Hide();
+            listViewSystem.Show();
         }
 
         private void ButtonMyFlights_Click(object sender, EventArgs e)
         {
+            listViewSystem.Hide();
+            listViewClient.Show();
+        }
+
+        private void GoToOrder(int flightId)
+        {
+            Order order = new Order(clnId, flightId);
+
+            if (clnId >= 0 && flightId >= 0)
+            {
+                order.ShowDialog();
+                RefreshWindow();
+            }
+        }
+        private void RefreshWindow()
+        {
+            ClientViewHelper clnviewhelp = new ClientViewHelper(clnId);
+            clnviewhelp.GetAllClientInfo(out string username, out string mail, out decimal money);
+            labelUsername.Text = username;
+            labelMail.Text = mail;
+            labelMoney.Text = money.ToString(CultureInfo.InvariantCulture);
             FormClientList();
+            FormSystemList();
         }
     }
 }
