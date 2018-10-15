@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using StackExchange.Redis;
 
 namespace Redis_Client
 {
@@ -18,5 +19,10 @@ namespace Redis_Client
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LogIn());
         }
+    }
+    public static class DbConn
+    {
+        public static readonly ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("redis, 127.0.0.1:6379");
+
     }
 }

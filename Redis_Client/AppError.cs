@@ -17,5 +17,10 @@ namespace Redis_Client
             MessageBox.Show(errCode, "Error",
             MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+        public void ShowMsg(string code)
+        {
+            MessageBox.Show(code, "Message",
+            MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

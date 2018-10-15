@@ -9,12 +9,12 @@ namespace Redis_Client
 {
     class BankUtil
     {
-        readonly ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("redis, 127.0.0.1:6379");
+        //readonly ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("redis, 127.0.0.1:6379");
         readonly string bankAcout = "BankAcc:";
         IDatabase db;
         public decimal GetClientsAmount(int userId)
         {
-            db = redis.GetDatabase();
+            db = DbConn.redis.GetDatabase();
             RedisValue amount = db.StringGet(bankAcout + userId);
             if (amount.IsNull)
             {
@@ -25,7 +25,7 @@ namespace Redis_Client
 
         public bool MoneyTransfer(int userId1, int userId2, decimal amount)
         {
-            db = redis.GetDatabase();
+            db = DbConn.redis.GetDatabase();
             decimal dAmount1 = (decimal)db.StringGet(bankAcout + userId1);
             decimal dAmount2 = (decimal)db.StringGet(bankAcout + userId2);
 
@@ -35,8 +35,7 @@ namespace Redis_Client
             string sAmount2 = dAmount2.ToString();
 
             var tran = db.CreateTransaction();
-            //tran.AddCondition(Condition.StringEqual(bankAcout + userId1, sAmount1));
-            //tran.AddCondition(Condition.StringEqual(bankAcout + userId2, sAmount2));
+            tran.AddCondition(Condition.StringLengthGreaterThan(bankAcout + userId1, 0));
             dAmount1 -= amount;
             dAmount2 += amount;
             sAmount1 = dAmount1.ToString();

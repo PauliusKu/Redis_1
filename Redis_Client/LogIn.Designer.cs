@@ -40,25 +40,28 @@
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(82, 92);
+            this.textBoxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.textBoxName.Location = new System.Drawing.Point(75, 92);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(168, 22);
+            this.textBoxName.Size = new System.Drawing.Size(250, 30);
             this.textBoxName.TabIndex = 0;
             this.textBoxName.Click += new System.EventHandler(this.TextBoxName_Click);
             // 
             // textBoxPsw
             // 
-            this.textBoxPsw.Location = new System.Drawing.Point(82, 141);
+            this.textBoxPsw.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.textBoxPsw.Location = new System.Drawing.Point(75, 141);
             this.textBoxPsw.Name = "textBoxPsw";
-            this.textBoxPsw.Size = new System.Drawing.Size(168, 22);
+            this.textBoxPsw.Size = new System.Drawing.Size(250, 30);
             this.textBoxPsw.TabIndex = 1;
             this.textBoxPsw.Click += new System.EventHandler(this.TextBoxPsw_Click);
             // 
             // butLogIn
             // 
-            this.butLogIn.Location = new System.Drawing.Point(82, 232);
+            this.butLogIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.butLogIn.Location = new System.Drawing.Point(75, 245);
             this.butLogIn.Name = "butLogIn";
-            this.butLogIn.Size = new System.Drawing.Size(168, 23);
+            this.butLogIn.Size = new System.Drawing.Size(250, 50);
             this.butLogIn.TabIndex = 2;
             this.butLogIn.Text = "LogIn";
             this.butLogIn.UseVisualStyleBackColor = true;
@@ -66,9 +69,10 @@
             // 
             // butRegister
             // 
-            this.butRegister.Location = new System.Drawing.Point(82, 275);
+            this.butRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.butRegister.Location = new System.Drawing.Point(75, 302);
             this.butRegister.Name = "butRegister";
-            this.butRegister.Size = new System.Drawing.Size(168, 23);
+            this.butRegister.Size = new System.Drawing.Size(250, 50);
             this.butRegister.TabIndex = 3;
             this.butRegister.Text = "Register";
             this.butRegister.UseVisualStyleBackColor = true;
@@ -76,9 +80,10 @@
             // 
             // textBoxMail
             // 
-            this.textBoxMail.Location = new System.Drawing.Point(82, 189);
+            this.textBoxMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.textBoxMail.Location = new System.Drawing.Point(75, 189);
             this.textBoxMail.Name = "textBoxMail";
-            this.textBoxMail.Size = new System.Drawing.Size(168, 22);
+            this.textBoxMail.Size = new System.Drawing.Size(250, 30);
             this.textBoxMail.TabIndex = 4;
             this.textBoxMail.Visible = false;
             this.textBoxMail.Click += new System.EventHandler(this.TextBoxMail_Click);
@@ -91,7 +96,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(339, 450);
+            this.ClientSize = new System.Drawing.Size(394, 479);
             this.Controls.Add(this.textBoxMail);
             this.Controls.Add(this.butRegister);
             this.Controls.Add(this.butLogIn);

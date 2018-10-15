@@ -94,7 +94,7 @@
             // 
             // labelMail
             // 
-            this.labelMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
+            this.labelMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.labelMail.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelMail.Location = new System.Drawing.Point(49, 185);
             this.labelMail.Name = "labelMail";
