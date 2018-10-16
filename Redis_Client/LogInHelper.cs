@@ -41,6 +41,7 @@ namespace Redis_Client
             else
             {
                 rUtil.CreateClient(username, password, mail);
+
                 return rUtil.GetId(username);
             }
             return -1;

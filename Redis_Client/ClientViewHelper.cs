@@ -35,20 +35,32 @@ namespace Redis_Client
         {
             BankUtil bankUt = new BankUtil();
             FlightUtil flUtil = new FlightUtil();
-            if (!flUtil.IsFlightClnBooked(flightId, clnId))
+
+            if (flUtil.IsEnoughTicket(flightId, orderAmount))
             {
-                if (flUtil.IsEnoughTicket(flightId, orderAmount))
+                if (bankUt.MoneyTransfer(clnId, companyAcountId, flUtil.GetFlightCost(flightId) * orderAmount))
                 {
-                    if (bankUt.MoneyTransfer(clnId, companyAcountId, flUtil.GetFlightCost(flightId) * orderAmount))
-                    {
-                        flUtil.BookFlight(flightId, clnId, orderAmount);
-                        appErr.ShowMsg("Order completed successfully");
-                    }
-                    else appErr.ShowErrorMsg("Bank error");
+                    flUtil.BookFlight(flightId, clnId, orderAmount);
+                    appErr.ShowMsg("Order completed successfully");
                 }
-                else appErr.ShowErrorMsg("Zero tickets left");
+                else appErr.ShowErrorMsg("Bank error");
             }
-            else appErr.ShowErrorMsg("You already have a ticket");
+            else appErr.ShowErrorMsg("Zero tickets left");
+
+        }
+
+        public void DeleteOrder(int flightId)
+        {
+            BankUtil bankUt = new BankUtil();
+            FlightUtil flUtil = new FlightUtil();
+            int orderAmount = flUtil.GetFlightOrderAmount(flightId, clnId);
+
+            if (bankUt.MoneyTransfer(companyAcountId, clnId, flUtil.GetFlightCost(flightId) * orderAmount))
+            {
+                flUtil.UnBookFlight(flightId, clnId, orderAmount);
+                appErr.ShowMsg("Order deleted successfully");
+            }
+            else appErr.ShowErrorMsg("Bank error");
 
         }
 

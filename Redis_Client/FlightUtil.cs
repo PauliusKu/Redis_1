@@ -14,6 +14,8 @@ namespace Redis_Client
         readonly string flightPassSet = "FlightPassSet:";
         readonly string clientFlightsSet = "clnFlSet:";
         readonly string passFlightOrderAmount = "PassFlOrdAmt:";
+        readonly string flightPassSetHis = "FlightPassSetHis:";
+        readonly string clientFlightsSetHis = "clnFlSetHis:";
         IDatabase db;
         public string GetClientFlightInfo(int clnId)
         {
@@ -79,7 +81,23 @@ namespace Redis_Client
             db.SetAdd(flightPassSet + flightId, clnId);
             db.HashSet(flightHash + flightId, "LEFT", (int)db.HashGet(flightHash + flightId, "LEFT") - orderAmount);
             db.SetAdd(clientFlightsSet + clnId, flightId);
+            orderAmount += (int)db.StringGet(passFlightOrderAmount + clnId + ":" + flightId);
             db.StringSet(passFlightOrderAmount + clnId + ":" + flightId, orderAmount);
+        }
+
+        public void UnBookFlight(int flightId, int clnId, int orderAmount)
+        {
+            db = DbConn.redis.GetDatabase();
+            db.SetMove(flightPassSet + flightId, flightPassSetHis + flightId, clnId);
+            db.HashSet(flightHash + flightId, "LEFT", (int)db.HashGet(flightHash + flightId, "LEFT") + orderAmount);
+            db.SetMove(clientFlightsSet + clnId, clientFlightsSetHis + clnId, flightId);
+            db.StringSet(passFlightOrderAmount + clnId + ":" + flightId, 0);
+        }
+
+        public int GetFlightOrderAmount(int flightId, int clnId)
+        {
+            db = DbConn.redis.GetDatabase();
+            return (int)db.StringGet(passFlightOrderAmount + clnId + ":" + flightId);
         }
 
         public bool IsFlightClnBooked(int flightId, int clnId)

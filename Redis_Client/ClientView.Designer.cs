@@ -118,24 +118,26 @@
             // 
             // buttonMyFlights
             // 
+            this.buttonMyFlights.BackColor = System.Drawing.Color.RoyalBlue;
             this.buttonMyFlights.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
             this.buttonMyFlights.Location = new System.Drawing.Point(50, 372);
             this.buttonMyFlights.Name = "buttonMyFlights";
             this.buttonMyFlights.Size = new System.Drawing.Size(267, 52);
             this.buttonMyFlights.TabIndex = 13;
             this.buttonMyFlights.Text = "My Flights";
-            this.buttonMyFlights.UseVisualStyleBackColor = true;
+            this.buttonMyFlights.UseVisualStyleBackColor = false;
             this.buttonMyFlights.Click += new System.EventHandler(this.ButtonMyFlights_Click);
             // 
             // buttonSystemFlights
             // 
+            this.buttonSystemFlights.BackColor = System.Drawing.Color.Ivory;
             this.buttonSystemFlights.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
             this.buttonSystemFlights.Location = new System.Drawing.Point(49, 453);
             this.buttonSystemFlights.Name = "buttonSystemFlights";
             this.buttonSystemFlights.Size = new System.Drawing.Size(268, 52);
             this.buttonSystemFlights.TabIndex = 14;
             this.buttonSystemFlights.Text = "Choose a flight";
-            this.buttonSystemFlights.UseVisualStyleBackColor = true;
+            this.buttonSystemFlights.UseVisualStyleBackColor = false;
             this.buttonSystemFlights.Click += new System.EventHandler(this.ButtonSystemFlights_Click);
             // 
             // listViewSystem
@@ -148,7 +150,7 @@
             this.listViewSystem.TabIndex = 15;
             this.listViewSystem.UseCompatibleStateImageBehavior = false;
             this.listViewSystem.Visible = false;
-            this.listViewSystem.DoubleClick += new System.EventHandler(this.ListViewClient_DoubleClick);
+            this.listViewSystem.DoubleClick += new System.EventHandler(this.ListViewSystem_DoubleClick);
             // 
             // ClientView
             // 

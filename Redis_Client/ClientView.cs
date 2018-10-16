@@ -89,16 +89,25 @@ namespace Redis_Client
             }
         }
 
-        private void ListViewClient_DoubleClick(object sender, EventArgs e)
+        private void ListViewSystem_DoubleClick(object sender, EventArgs e)
         {
             int flightId;
             if (Int32.TryParse(listViewSystem.SelectedItems[0].SubItems[0].Text, out flightId))
             GoToOrder(flightId);
         }
 
+        private void ListViewClient_DoubleClick(object sender, EventArgs e)
+        {
+            ClientViewHelper clnviewhelp = new ClientViewHelper(clnId);
+            int flightId;
+            if (Int32.TryParse(listViewClient.SelectedItems[0].SubItems[0].Text, out flightId))
+                clnviewhelp.DeleteOrder(flightId);
+            RefreshWindow();
+        }
+
         private void ButtonSystemFlights_Click(object sender, EventArgs e)
         {
-            buttonSystemFlights.BackColor = Color.DeepSkyBlue;
+            buttonSystemFlights.BackColor = Color.RoyalBlue;
             buttonMyFlights.BackColor = Color.Ivory;
             listViewClient.Hide();
             listViewSystem.Show();
@@ -106,7 +115,7 @@ namespace Redis_Client
 
         private void ButtonMyFlights_Click(object sender, EventArgs e)
         {
-            buttonMyFlights.BackColor = Color.DeepSkyBlue;
+            buttonMyFlights.BackColor = Color.RoyalBlue;
             buttonSystemFlights.BackColor = Color.Ivory;
             listViewSystem.Hide();
             listViewClient.Show();
