@@ -31,14 +31,50 @@ namespace Redis_Client
             else return flUtil.GetSystemFlightInfo();
         }
 
-        public void MakeOrder(int flightId)
+        public void MakeOrder(int flightId, int orderAmount)
         {
             BankUtil bankUt = new BankUtil();
             FlightUtil flUtil = new FlightUtil();
-            if (bankUt.MoneyTransfer(clnId, companyAcountId, flUtil.GetFlightCost(flightId)) && flUtil.IsTicket(flightId))
+
+            if (flUtil.IsEnoughTicket(flightId, orderAmount))
             {
-                flUtil.BookFlight(flightId, clnId);
+                if (bankUt.MoneyTransfer(clnId, companyAcountId, flUtil.GetFlightCost(flightId) * orderAmount))
+                {
+                    flUtil.BookFlight(flightId, clnId, orderAmount);
+                    appErr.ShowMsg("Order completed successfully");
+                }
+                else appErr.ShowErrorMsg("Bank error");
             }
+            else appErr.ShowErrorMsg("Zero tickets left");
+
+        }
+
+        public void DeleteOrder(int flightId)
+        {
+            BankUtil bankUt = new BankUtil();
+            FlightUtil flUtil = new FlightUtil();
+            int orderAmount = flUtil.GetFlightOrderAmount(flightId, clnId);
+
+            if (bankUt.MoneyTransfer(companyAcountId, clnId, flUtil.GetFlightCost(flightId) * orderAmount))
+            {
+                flUtil.UnBookFlight(flightId, clnId, orderAmount);
+                appErr.ShowMsg("Order deleted successfully");
+            }
+            else appErr.ShowErrorMsg("Bank error");
+
+        }
+
+        //I need a new class
+        public int GetLeftTicketsAmount(int flightId)
+        {
+            FlightUtil flUtil = new FlightUtil();
+            return flUtil.GetLeftTicketsAmount(flightId);
+        }
+
+        public decimal GetTicketsCost(int flightId)
+        {
+            FlightUtil flUtil = new FlightUtil();
+            return flUtil.GetFlightCost(flightId);
         }
     }
 }
