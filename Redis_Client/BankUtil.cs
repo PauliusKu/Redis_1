@@ -17,9 +17,7 @@ namespace Redis_Client
             db = DbConn.redis.GetDatabase();
             RedisValue amount = db.StringGet(bankAcout + userId);
             if (amount.IsNull)
-            {
                 return -1;
-            }
             else return (decimal)amount;
         }
 

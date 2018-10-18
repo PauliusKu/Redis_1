@@ -49,9 +49,7 @@ namespace Redis_Client
             for (int itr = 0; itr < words.Length - 1; itr += 6)
             {
                 for (int initr = 0; initr < 6; initr++)
-                {
                     arr[initr] = words[initr + itr];
-                }
                 itm = new ListViewItem(arr);
                 listViewClient.Items.Add(itm);
             }
@@ -81,9 +79,7 @@ namespace Redis_Client
             for (int itr = 0; itr < words.Length-1; itr += 6)
             {
                 for (int initr = 0; initr < 6; initr++)
-                {
                     arr[initr] = words[initr + itr];
-                }
                 itm = new ListViewItem(arr);
                 listViewSystem.Items.Add(itm);
             }

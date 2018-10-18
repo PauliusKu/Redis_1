@@ -15,6 +15,8 @@ namespace Redis_Client
         [STAThread]
         static void Main()
         {
+            BankUtil bUtil = new BankUtil();
+            //bUtil.MoneyTransfer(1000, 1001, 1);  //transaction test
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LogIn());

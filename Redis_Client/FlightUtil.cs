@@ -69,9 +69,7 @@ namespace Redis_Client
         {
             db = DbConn.redis.GetDatabase();
             if ((int)db.HashGet(flightHash + flightId, "LEFT") >= amount)
-            {
                 return true;
-            }
             return false;
         }
 
