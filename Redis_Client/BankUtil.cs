@@ -9,7 +9,6 @@ namespace Redis_Client
 {
     class BankUtil
     {
-        //readonly ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("redis, 127.0.0.1:6379");
         readonly string bankAcout = "BankAcc:";
         IDatabase db;
         public decimal GetClientsAmount(int userId)
@@ -33,7 +32,11 @@ namespace Redis_Client
             string sAmount2 = dAmount2.ToString();
 
             var tran = db.CreateTransaction();
-            tran.AddCondition(Condition.StringLengthGreaterThan(bankAcout + userId1, 0));
+
+            tran.AddCondition(Condition.KeyExists(bankAcout + userId1));
+            tran.AddCondition(Condition.KeyExists(bankAcout + userId2));
+            tran.AddCondition(Condition.StringEqual(bankAcout + userId1, (long)dAmount1));
+
             dAmount1 -= amount;
             dAmount2 += amount;
             sAmount1 = dAmount1.ToString();

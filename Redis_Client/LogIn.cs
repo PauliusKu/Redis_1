@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Cassandra;
 
 namespace Redis_Client
 {
@@ -97,14 +98,27 @@ namespace Redis_Client
         }
         private void GoToClientView()
         {
-            ClientView clientview = new ClientView(clnId);
+            ClientTracker tracker = new ClientTracker();
+            tracker.Start_Tracking();
+
+            ClientView clientview = new ClientView(clnId, tracker);
 
             if (clnId >= 0)
             {
+                tracker.Start_Timer();
                 this.Hide();
                 clientview.ShowDialog();
                 this.Close();
+                tracker.End_Timer(0, clnId);
             }
+        }
+
+        private void Admin_Click(object sender, EventArgs e)
+        {
+            AdminView adminView = new AdminView();
+            this.Hide();
+            adminView.ShowDialog();
+            this.Close();
         }
     }
 }

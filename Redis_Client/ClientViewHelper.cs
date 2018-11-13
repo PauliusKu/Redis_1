@@ -49,11 +49,10 @@ namespace Redis_Client
 
         }
 
-        public void DeleteOrder(int flightId)
+        public void DeleteOrder(int flightId, int orderAmount)
         {
             BankUtil bankUt = new BankUtil();
             FlightUtil flUtil = new FlightUtil();
-            int orderAmount = flUtil.GetFlightOrderAmount(flightId, clnId);
 
             if (bankUt.MoneyTransfer(companyAcountId, clnId, flUtil.GetFlightCost(flightId) * orderAmount))
             {

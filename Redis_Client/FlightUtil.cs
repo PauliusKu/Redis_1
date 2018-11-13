@@ -86,10 +86,14 @@ namespace Redis_Client
         public void UnBookFlight(int flightId, int clnId, int orderAmount)
         {
             db = DbConn.redis.GetDatabase();
-            db.SetMove(flightPassSet + flightId, flightPassSetHis + flightId, clnId);
             db.HashSet(flightHash + flightId, "LEFT", (int)db.HashGet(flightHash + flightId, "LEFT") + orderAmount);
-            db.SetMove(clientFlightsSet + clnId, clientFlightsSetHis + clnId, flightId);
-            db.StringSet(passFlightOrderAmount + clnId + ":" + flightId, 0);
+            orderAmount = (int)db.StringGet(passFlightOrderAmount + clnId + ":" + flightId) - orderAmount;
+            if (orderAmount == 0)
+            {
+                db.SetMove(flightPassSet + flightId, flightPassSetHis + flightId, clnId);
+                db.SetMove(clientFlightsSet + clnId, clientFlightsSetHis + clnId, flightId);
+            }
+            db.StringSet(passFlightOrderAmount + clnId + ":" + flightId, orderAmount);
         }
 
         public int GetFlightOrderAmount(int flightId, int clnId)

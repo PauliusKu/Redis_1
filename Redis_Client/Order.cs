@@ -18,7 +18,9 @@ namespace Redis_Client
         int ticketsMaxAmount = 0;
         decimal oneTicketCost = 0;
         decimal ticketsCost = 0;
-        public Order(int cId, int flId)
+        bool isOrderOrCancelation;
+
+        public Order(int cId, int flId, bool isOrder)
         {
             clnId = cId;
             flightId = flId;
@@ -27,6 +29,7 @@ namespace Redis_Client
             ticketsMaxAmount = clnviewhelp.GetLeftTicketsAmount(flightId);
             oneTicketCost = clnviewhelp.GetTicketsCost(flightId);
             ticketsCost = oneTicketCost;
+            isOrderOrCancelation = isOrder;
         }
 
         private void Order_Load(object sender, EventArgs e)
@@ -37,7 +40,9 @@ namespace Redis_Client
         private void ButtonOrder_Click(object sender, EventArgs e)
         {
             ClientViewHelper clnviewhelp = new ClientViewHelper(clnId);
+            if (isOrderOrCancelation == true)
             clnviewhelp.MakeOrder(flightId, ticketsAmount);
+            else clnviewhelp.DeleteOrder(flightId, ticketsAmount);
             this.Close();
         }
 
@@ -54,13 +59,19 @@ namespace Redis_Client
 
         private void buttonMore_Click(object sender, EventArgs e)
         {
-            if (ticketsAmount < ticketsMaxAmount)
+            FlightUtil flightUt = new FlightUtil();
+            if ((ticketsAmount < ticketsMaxAmount && isOrderOrCancelation == true) || (ticketsAmount < flightUt.GetFlightOrderAmount(flightId, clnId)))
             {
                 ticketsAmount++;
                 ticketsCost += oneTicketCost;
                 labelSum.Text = ticketsCost.ToString() + " EUR";
             }
             textBoxPassAmount.Text = ticketsAmount.ToString();
+        }
+
+        private void FlightInfo_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

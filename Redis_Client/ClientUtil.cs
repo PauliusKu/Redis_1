@@ -27,17 +27,10 @@ namespace Redis_Client
         }
         public void CreateClient(string username, string password, string mail)
         {
-            int iNameID;
-            string sNameID;
+            long iNameID;
 
             db = DbConn.redis.GetDatabase();
-            sNameID = db.StringGet(ClientNamesCounter);
-
-            if (!Int32.TryParse(sNameID, out iNameID))
-            {
-                iNameID = -1;
-            }
-            iNameID++;
+            iNameID = db.StringIncrement(ClientNamesCounter, 1);
 
             db.StringSet(ClientNamesCounter, iNameID);
 

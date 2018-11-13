@@ -8,14 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Globalization;
+using Cassandra;
 
 namespace Redis_Client
 {
     public partial class ClientView : Form
     {
         int clnId = -1;
-        public ClientView(int clientId)
+        ClientTracker tracker;
+        public ClientView(int clientId, ClientTracker clntrack)
         {
+            tracker = clntrack;
             clnId = clientId;
             InitializeComponent();
         }
@@ -89,16 +92,14 @@ namespace Redis_Client
         {
             int flightId;
             if (Int32.TryParse(listViewSystem.SelectedItems[0].SubItems[0].Text, out flightId))
-            GoToOrder(flightId);
+                GoToOrder(flightId, true);
         }
 
         private void ListViewClient_DoubleClick(object sender, EventArgs e)
         {
-            ClientViewHelper clnviewhelp = new ClientViewHelper(clnId);
             int flightId;
             if (Int32.TryParse(listViewClient.SelectedItems[0].SubItems[0].Text, out flightId))
-                clnviewhelp.DeleteOrder(flightId);
-            RefreshWindow();
+                GoToOrder(flightId, false);
         }
 
         private void ButtonSystemFlights_Click(object sender, EventArgs e)
@@ -117,14 +118,17 @@ namespace Redis_Client
             listViewClient.Show();
         }
 
-        private void GoToOrder(int flightId)
+        private void GoToOrder(int flightId, bool isOrder)
         {
-            Order order = new Order(clnId, flightId);
+            Order order = new Order(clnId, flightId, isOrder);
 
             if (clnId >= 0 && flightId >= 0)
             {
+                tracker.Start_Timer();
                 order.ShowDialog();
                 RefreshWindow();
+                tracker.End_Timer(1 * 1000000 + flightId, clnId);
+
             }
         }
         private void RefreshWindow()
