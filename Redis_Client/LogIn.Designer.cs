@@ -35,6 +35,7 @@
             this.butRegister = new System.Windows.Forms.Button();
             this.textBoxMail = new System.Windows.Forms.TextBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.Admin = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -92,11 +93,22 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // Admin
+            // 
+            this.Admin.Location = new System.Drawing.Point(75, 402);
+            this.Admin.Name = "Admin";
+            this.Admin.Size = new System.Drawing.Size(250, 53);
+            this.Admin.TabIndex = 5;
+            this.Admin.Text = "Admin";
+            this.Admin.UseVisualStyleBackColor = true;
+            this.Admin.Click += new System.EventHandler(this.Admin_Click);
+            // 
             // LogIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 479);
+            this.Controls.Add(this.Admin);
             this.Controls.Add(this.textBoxMail);
             this.Controls.Add(this.butRegister);
             this.Controls.Add(this.butLogIn);
@@ -123,5 +135,6 @@
         private System.Windows.Forms.Button butRegister;
         private System.Windows.Forms.TextBox textBoxMail;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Button Admin;
     }
 }

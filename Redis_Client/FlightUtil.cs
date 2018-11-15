@@ -36,7 +36,6 @@ namespace Redis_Client
                 flights += delimiter;
 
             }
-            Console.WriteLine(flights);
             return flights;
         }
 
@@ -86,10 +85,14 @@ namespace Redis_Client
         public void UnBookFlight(int flightId, int clnId, int orderAmount)
         {
             db = DbConn.redis.GetDatabase();
-            db.SetMove(flightPassSet + flightId, flightPassSetHis + flightId, clnId);
             db.HashSet(flightHash + flightId, "LEFT", (int)db.HashGet(flightHash + flightId, "LEFT") + orderAmount);
-            db.SetMove(clientFlightsSet + clnId, clientFlightsSetHis + clnId, flightId);
-            db.StringSet(passFlightOrderAmount + clnId + ":" + flightId, 0);
+            orderAmount = (int)db.StringGet(passFlightOrderAmount + clnId + ":" + flightId) - orderAmount;
+            if (orderAmount == 0)
+            {
+                db.SetMove(flightPassSet + flightId, flightPassSetHis + flightId, clnId);
+                db.SetMove(clientFlightsSet + clnId, clientFlightsSetHis + clnId, flightId);
+            }
+            db.StringSet(passFlightOrderAmount + clnId + ":" + flightId, orderAmount);
         }
 
         public int GetFlightOrderAmount(int flightId, int clnId)
@@ -103,10 +106,7 @@ namespace Redis_Client
             db = DbConn.redis.GetDatabase();
             RedisValue[] flightsId = db.SetMembers(clientFlightsSet + clnId);
             foreach (var itr in flightsId)
-            {
-                Console.WriteLine("line " + itr + "  " + flightId);
                 if (itr == flightId) return true;
-            }
             return false;
         }
 
@@ -114,6 +114,24 @@ namespace Redis_Client
         {
             db = DbConn.redis.GetDatabase();
             return (int)db.HashGet(flightHash + flightId, "LEFT");
+        }
+
+        public string GetFlightFromAirport(int flightId)
+        {
+            db = DbConn.redis.GetDatabase();
+            return db.HashGet(flightHash + flightId, "FROM");
+        }
+
+        public string GetFlightToAirport(int flightId)
+        {
+            db = DbConn.redis.GetDatabase();
+            return db.HashGet(flightHash + flightId, "TO");
+        }
+
+        public string GetFlightDate(int flightId)
+        {
+            db = DbConn.redis.GetDatabase();
+            return db.HashGet(flightHash + flightId, "DATE");
         }
     }
 }

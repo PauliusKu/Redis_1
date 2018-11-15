@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Cassandra;
 
 namespace Redis_Client
 {
@@ -97,6 +98,7 @@ namespace Redis_Client
         }
         private void GoToClientView()
         {
+
             ClientView clientview = new ClientView(clnId);
 
             if (clnId >= 0)
@@ -105,6 +107,14 @@ namespace Redis_Client
                 clientview.ShowDialog();
                 this.Close();
             }
+        }
+
+        private void Admin_Click(object sender, EventArgs e)
+        {
+            AdminView adminView = new AdminView();
+            this.Hide();
+            adminView.ShowDialog();
+            this.Close();
         }
     }
 }
