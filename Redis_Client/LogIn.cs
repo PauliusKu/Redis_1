@@ -98,18 +98,14 @@ namespace Redis_Client
         }
         private void GoToClientView()
         {
-            ClientTracker tracker = new ClientTracker();
-            tracker.Start_Tracking();
 
-            ClientView clientview = new ClientView(clnId, tracker);
+            ClientView clientview = new ClientView(clnId);
 
             if (clnId >= 0)
             {
-                tracker.Start_Timer();
                 this.Hide();
                 clientview.ShowDialog();
                 this.Close();
-                tracker.End_Timer(0, clnId);
             }
         }
 

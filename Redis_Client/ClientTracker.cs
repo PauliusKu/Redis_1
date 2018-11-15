@@ -9,30 +9,55 @@ namespace Redis_Client
 {
     public class ClientTracker
     {
-        DateTime start;
         ISession session;
-        PreparedStatement ps1, ps2;
+        PreparedStatement insert1, insert2, select1, select2;
+        DateTime start;
+        int flId, clnId;
+        bool isOrd;
+        int result = 0;
         public void Start_Tracking()
         {
             session = DbConn.cluster.Connect();
-            ps1 = session.Prepare("insert into redis_fly.sysObj_to_cln (sysObjId, clnId, start, time) values (?, ?, ?, ?)");
-            ps2 = session.Prepare("SELECT clnid, start, time FROM redis_fly.sysObj_To_Cln where sysobjid=?");
+
+            insert1 = session.Prepare("INSERT INTO redis_fly.flight_to_client (flightId, clnId, startTime, durration) values (?, ?, ?, ?)");
+            insert2 = session.Prepare("INSERT INTO redis_fly.client_to_flight (flightId, clnId, startTime, durration) values (?, ?, ?, ?);");
+            select1 = session.Prepare("SELECT clnId, startTime, durration FROM redis_fly.flight_to_client WHERE flightId=?");
+            select2 = session.Prepare("SELECT flightId, startTime, durration FROM redis_fly.client_to_flight WHERE clnid=?");
         }
 
-        public void Start_Timer()
+        public void Start_Timer(int flightId, int clientId, bool isOrder)
         {
+            flId = flightId;
+            clnId = clientId;
+            isOrd = isOrder;
             start = DateTime.Now;
         }
 
-        public void End_Timer(int sysObjId, int clnId)
+        public void Set_Result(int OrderResult)
         {
-            var statement = ps1.Bind(sysObjId, clnId, DateTime.Now, DateTime.Now.Subtract(start).TotalSeconds);
-            session.Execute(statement);
+            result = OrderResult;
+        }
+
+        public void End_Timer()
+        {
+
+            var batch = new BatchStatement()
+            .Add(insert1.Bind(flId, clnId, DateTime.Now, DateTime.Now.Subtract(start).TotalSeconds))
+            .Add(insert2.Bind(flId, clnId, DateTime.Now, DateTime.Now.Subtract(start).TotalSeconds));
+
+            session.Execute(batch);
         }
 
         public List<Row> GetClientInfoByFlight(int flightId)
         {
-            var statement = ps2.Bind(flightId);
+            var statement = select1.Bind(flightId);
+
+            return session.Execute(statement).ToList();
+        }
+
+        public List<Row> GetFlightInfoByClient(int clnId)
+        {
+            var statement = select2.Bind(clnId);
 
             return session.Execute(statement).ToList();
         }

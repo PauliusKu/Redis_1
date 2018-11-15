@@ -31,6 +31,7 @@
             this.SearchBox = new System.Windows.Forms.TextBox();
             this.AdminTable = new System.Windows.Forms.ListView();
             this.FindFlight = new System.Windows.Forms.Button();
+            this.FindUser = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // SearchBox
@@ -59,11 +60,22 @@
             this.FindFlight.UseVisualStyleBackColor = true;
             this.FindFlight.Click += new System.EventHandler(this.FindFlight_Click);
             // 
+            // FindUser
+            // 
+            this.FindUser.Location = new System.Drawing.Point(359, 37);
+            this.FindUser.Name = "FindUser";
+            this.FindUser.Size = new System.Drawing.Size(100, 26);
+            this.FindUser.TabIndex = 3;
+            this.FindUser.Text = "Find User";
+            this.FindUser.UseVisualStyleBackColor = true;
+            this.FindUser.Click += new System.EventHandler(this.FindUser_Click);
+            // 
             // AdminView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1038, 556);
+            this.Controls.Add(this.FindUser);
             this.Controls.Add(this.FindFlight);
             this.Controls.Add(this.AdminTable);
             this.Controls.Add(this.SearchBox);
@@ -80,5 +92,6 @@
         private System.Windows.Forms.TextBox SearchBox;
         private System.Windows.Forms.ListView AdminTable;
         private System.Windows.Forms.Button FindFlight;
+        private System.Windows.Forms.Button FindUser;
     }
 }

@@ -111,7 +111,6 @@
             this.FlightInfo.Size = new System.Drawing.Size(328, 264);
             this.FlightInfo.TabIndex = 6;
             this.FlightInfo.Text = resources.GetString("FlightInfo.Text");
-            this.FlightInfo.Click += new System.EventHandler(this.FlightInfo_Click);
             // 
             // Order
             // 

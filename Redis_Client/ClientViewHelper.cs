@@ -12,10 +12,17 @@ namespace Redis_Client
         int companyAcountId = 9999;
         AppError appErr = new AppError();
         ClientUtil clnUtil = new ClientUtil();
+        ClientTracker clnTrack;
 
         public ClientViewHelper(int clientId)
         {
             clnId = clientId;
+        }
+
+        public ClientViewHelper(int clientId, ClientTracker clnT)
+        {
+            clnId = clientId;
+            clnTrack = clnT;
         }
         public void GetAllClientInfo(out string username, out string mail, out decimal money)
         {
@@ -41,6 +48,7 @@ namespace Redis_Client
                 if (bankUt.MoneyTransfer(clnId, companyAcountId, flUtil.GetFlightCost(flightId) * orderAmount))
                 {
                     flUtil.BookFlight(flightId, clnId, orderAmount);
+                    clnTrack.Set_Result(1);
                     appErr.ShowMsg("Order completed successfully");
                 }
                 else appErr.ShowErrorMsg("Bank error");
@@ -57,6 +65,7 @@ namespace Redis_Client
             if (bankUt.MoneyTransfer(companyAcountId, clnId, flUtil.GetFlightCost(flightId) * orderAmount))
             {
                 flUtil.UnBookFlight(flightId, clnId, orderAmount);
+                clnTrack.Set_Result(2);
                 appErr.ShowMsg("Order deleted successfully");
             }
             else appErr.ShowErrorMsg("Bank error");

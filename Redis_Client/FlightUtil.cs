@@ -119,5 +119,17 @@ namespace Redis_Client
             db = DbConn.redis.GetDatabase();
             return (int)db.HashGet(flightHash + flightId, "LEFT");
         }
+
+        public string GetFlightFromAirport(int flightId)
+        {
+            db = DbConn.redis.GetDatabase();
+            return db.HashGet(flightHash + flightId, "FROM");
+        }
+
+        public string GetFlightToAirport(int flightId)
+        {
+            db = DbConn.redis.GetDatabase();
+            return db.HashGet(flightHash + flightId, "TO");
+        }
     }
 }
