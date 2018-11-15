@@ -36,7 +36,6 @@ namespace Redis_Client
                 flights += delimiter;
 
             }
-            Console.WriteLine(flights);
             return flights;
         }
 
@@ -107,10 +106,7 @@ namespace Redis_Client
             db = DbConn.redis.GetDatabase();
             RedisValue[] flightsId = db.SetMembers(clientFlightsSet + clnId);
             foreach (var itr in flightsId)
-            {
-                Console.WriteLine("line " + itr + "  " + flightId);
                 if (itr == flightId) return true;
-            }
             return false;
         }
 
@@ -130,6 +126,12 @@ namespace Redis_Client
         {
             db = DbConn.redis.GetDatabase();
             return db.HashGet(flightHash + flightId, "TO");
+        }
+
+        public string GetFlightDate(int flightId)
+        {
+            db = DbConn.redis.GetDatabase();
+            return db.HashGet(flightHash + flightId, "DATE");
         }
     }
 }

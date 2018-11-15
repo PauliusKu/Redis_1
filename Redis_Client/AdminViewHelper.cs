@@ -147,7 +147,7 @@ namespace Redis_Client
             clnUt.GetClientInfo(clnId, out username, out email);
             redisData.Add(username);
             redisData.Add(email);
-            redisData.Add(flUt.GetFlightOrderAmount(flightNum - 1000000, clnId).ToString());
+            redisData.Add(flUt.GetFlightOrderAmount(flightNum, clnId).ToString());
 
             return redisData;
         }
@@ -158,12 +158,57 @@ namespace Redis_Client
 
             ClientUtil clnUt = new ClientUtil();
             FlightUtil flUt = new FlightUtil();
-            redisData.Add(flUt.GetFlightFromAirport(flightNum - 1000000));
-            redisData.Add(flUt.GetFlightToAirport(flightNum - 1000000));
-            redisData.Add(flUt.GetFlightCost(flightNum - 1000000).ToString());
-            redisData.Add(flUt.GetFlightOrderAmount(flightNum - 1000000, clnId).ToString());
+            redisData.Add(flUt.GetFlightFromAirport(flightNum));
+            redisData.Add(flUt.GetFlightToAirport(flightNum));
+            redisData.Add(flUt.GetFlightCost(flightNum).ToString());
+            redisData.Add(flUt.GetFlightOrderAmount(flightNum, clnId).ToString());
 
             return redisData;
+        }
+
+        public void GetFlightInfoFromRedis(int flightNum, ref string from, ref string to, ref string date, ref string cost, ref string leftTickets)
+        {
+            FlightUtil flUt = new FlightUtil();
+            from = flUt.GetFlightFromAirport(flightNum);
+            to = flUt.GetFlightToAirport(flightNum);
+            date = flUt.GetFlightDate(flightNum);
+            cost = flUt.GetFlightCost(flightNum).ToString();
+            leftTickets = flUt.GetLeftTicketsAmount(flightNum).ToString();
+        }
+
+        public void GetClientInfoFromRedis(int clnId, ref string name, ref string email, ref string money, ref string booked)
+        {
+            ClientTracker clnTrack = new ClientTracker();
+            clnTrack.Start_Tracking();
+
+            ClientUtil clnUt = new ClientUtil();
+            BankUtil bnkUt = new BankUtil();
+            clnUt.GetClientInfo(clnId, out name, out email);
+            money = bnkUt.GetClientsAmount(clnId).ToString();
+
+            var row = clnTrack.GetClientBookedTotal(clnId).First();
+            booked = row.GetValue<int>("system.sum(action)").ToString();
+        }
+
+        public string GetDetailedData(int flightId, int clientId)
+        {
+            ClientTracker clnTrack = new ClientTracker();
+            clnTrack.Start_Tracking();
+
+            string data = "";
+            string delimiter = ";";
+
+            var trackerInfo = clnTrack.GetVisistsDetails(flightId, clientId);
+
+            foreach (var row in trackerInfo)
+            {
+
+                data += row.GetValue<DateTime>("starttime").ToString() + delimiter;
+                data += row.GetValue<double>("durration").ToString() + delimiter;
+                data += row.GetValue<int>("action").ToString() + delimiter;
+            }
+
+            return data;
         }
     }
 }

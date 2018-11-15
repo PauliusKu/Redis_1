@@ -48,7 +48,7 @@ namespace Redis_Client
                 if (bankUt.MoneyTransfer(clnId, companyAcountId, flUtil.GetFlightCost(flightId) * orderAmount))
                 {
                     flUtil.BookFlight(flightId, clnId, orderAmount);
-                    clnTrack.Set_Result(1);
+                    clnTrack.Set_Result(orderAmount);
                     appErr.ShowMsg("Order completed successfully");
                 }
                 else appErr.ShowErrorMsg("Bank error");
@@ -65,7 +65,7 @@ namespace Redis_Client
             if (bankUt.MoneyTransfer(companyAcountId, clnId, flUtil.GetFlightCost(flightId) * orderAmount))
             {
                 flUtil.UnBookFlight(flightId, clnId, orderAmount);
-                clnTrack.Set_Result(2);
+                clnTrack.Set_Result(-orderAmount);
                 appErr.ShowMsg("Order deleted successfully");
             }
             else appErr.ShowErrorMsg("Bank error");

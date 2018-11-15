@@ -12,6 +12,9 @@ namespace Redis_Client
 {
     public partial class AdminView : Form
     {
+        int input = -1;
+        bool inputType;
+
         public AdminView()
         {
             InitializeComponent();
@@ -26,6 +29,8 @@ namespace Redis_Client
         {
             FormFlightTable(Int32.Parse(SearchBox.Text));
             FormFlightInfo(Int32.Parse(SearchBox.Text));
+            input = Int32.Parse(SearchBox.Text);
+            inputType = true;
         }
 
         private void FormFlightTable(int pInput)
@@ -38,13 +43,13 @@ namespace Redis_Client
             AdminTable.GridLines = true;
             AdminTable.FullRowSelect = true;
 
-            AdminTable.Columns.Add("Client ID", 70);
-            AdminTable.Columns.Add("Client Name", 80);
-            AdminTable.Columns.Add("Client Email", 80);
-            AdminTable.Columns.Add("Booked Seats", 80);
-            AdminTable.Columns.Add("Spent Time", 80);
-            AdminTable.Columns.Add("Num. of views", 80);
-            AdminTable.Columns.Add("Last view date", 100);
+            AdminTable.Columns.Add("Client ID", 100);
+            AdminTable.Columns.Add("Client Name", 100);
+            AdminTable.Columns.Add("Client Email", 100);
+            AdminTable.Columns.Add("Booked Seats", 100);
+            AdminTable.Columns.Add("Spent Time", 100);
+            AdminTable.Columns.Add("Num. of views", 100);
+            AdminTable.Columns.Add("Last view date", 150);
 
             string[] arr = new string[10];
             ListViewItem itm;
@@ -62,13 +67,32 @@ namespace Redis_Client
 
         private void FormFlightInfo(int pInput)
         {
+            AdminViewHelper admViewHelper = new AdminViewHelper();
+            string txt8 = "", txt9 = "", txt10 = "", txt11 = "", txt12 = "";
 
+            label1.Text = "ID";
+            label2.Text = "FROM";
+            label3.Text = "TO";
+            label4.Text = "DATE";
+            label5.Text = "COST";
+            label6.Text = "LEFT TICKETS";
+
+            admViewHelper.GetFlightInfoFromRedis(pInput, ref txt8, ref txt9, ref txt10, ref txt11, ref txt12);
+
+            label7.Text = pInput.ToString();
+            label8.Text = txt8;
+            label9.Text = txt9;
+            label10.Text = txt10;
+            label11.Text = txt11;
+            label12.Text = txt12;
         }
 
         private void FindUser_Click(object sender, EventArgs e)
         {
             FormClientTable(Int32.Parse(SearchBox.Text));
             FormClientInfo(Int32.Parse(SearchBox.Text));
+            input = Int32.Parse(SearchBox.Text);
+            inputType = false;
         }
 
         private void FormClientTable(int pInput)
@@ -81,13 +105,13 @@ namespace Redis_Client
             AdminTable.GridLines = true;
             AdminTable.FullRowSelect = true;
 
-            AdminTable.Columns.Add("Flight ID", 70);
-            AdminTable.Columns.Add("From", 80);
-            AdminTable.Columns.Add("To", 80);
-            AdminTable.Columns.Add("Cost", 80);
-            AdminTable.Columns.Add("Booked", 80);
-            AdminTable.Columns.Add("Spent Time", 80);
-            AdminTable.Columns.Add("Num. of views", 80);
+            AdminTable.Columns.Add("Flight ID", 100);
+            AdminTable.Columns.Add("From", 100);
+            AdminTable.Columns.Add("To", 100);
+            AdminTable.Columns.Add("Cost", 100);
+            AdminTable.Columns.Add("Booked", 100);
+            AdminTable.Columns.Add("Spent Time", 100);
+            AdminTable.Columns.Add("Num. of views", 100);
             AdminTable.Columns.Add("Last view date", 150);
 
             string[] arr = new string[10];
@@ -106,7 +130,46 @@ namespace Redis_Client
 
         private void FormClientInfo(int pInput)
         {
+            AdminViewHelper admViewHelper = new AdminViewHelper();
+            string txt8 = "", txt9 = "", txt11 = "", txt12 = "";
 
+            label1.Text = "ID";
+            label2.Text = "NAME";
+            label3.Text = "EMAIL";
+            label4.Text = "";
+            label5.Text = "MONEY";
+            label6.Text = "TOTAL ORDERS";
+
+            admViewHelper.GetClientInfoFromRedis(pInput, ref txt8, ref txt9, ref txt11, ref txt12);
+
+            label7.Text = pInput.ToString();
+            label8.Text = txt8;
+            label9.Text = txt9;
+            label10.Text = "";
+            label11.Text = txt11;
+            label12.Text = txt12;
+        }
+
+        private void AdminTable_DoubleClick(object sender, EventArgs e)
+        {
+            int rowId;
+            if (Int32.TryParse(AdminTable.SelectedItems[0].SubItems[0].Text, out rowId))
+            {
+                if (inputType)
+                    GoToAdminViewDetails(input, rowId);
+                else GoToAdminViewDetails(rowId, input);
+            }
+        }
+
+        private void GoToAdminViewDetails(int flightId, int clientId)
+        {
+            AdminViewDetails admV = new AdminViewDetails(flightId, clientId);
+
+            if (flightId >= 0 && clientId >= 0)
+            {
+                admV.ShowDialog();
+
+            }
         }
     }
 }
