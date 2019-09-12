@@ -17,7 +17,7 @@ namespace Redis_Client
             RedisValue amount = db.StringGet(bankAcout + userId);
             if (amount.IsNull)
                 return -1;
-            else return (decimal)amount;
+            return (decimal)amount;
         }
 
         public bool MoneyTransfer(int userId1, int userId2, decimal amount)

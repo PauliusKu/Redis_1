@@ -44,6 +44,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.Create = new System.Windows.Forms.Button();
+            this.Drop = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // SearchBox
@@ -206,11 +208,35 @@
             this.label12.TabIndex = 15;
             this.label12.Text = " ";
             // 
+            // Create
+            // 
+            this.Create.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.Create.Location = new System.Drawing.Point(46, 585);
+            this.Create.Name = "Create";
+            this.Create.Size = new System.Drawing.Size(233, 29);
+            this.Create.TabIndex = 16;
+            this.Create.Text = "Create Cassandra tables";
+            this.Create.UseVisualStyleBackColor = true;
+            this.Create.Click += new System.EventHandler(this.Create_Click);
+            // 
+            // Drop
+            // 
+            this.Drop.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.Drop.Location = new System.Drawing.Point(303, 585);
+            this.Drop.Name = "Drop";
+            this.Drop.Size = new System.Drawing.Size(233, 29);
+            this.Drop.TabIndex = 17;
+            this.Drop.Text = "Drop Cassandra tables";
+            this.Drop.UseVisualStyleBackColor = true;
+            this.Drop.Click += new System.EventHandler(this.Drop_Click);
+            // 
             // AdminView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1029, 626);
+            this.Controls.Add(this.Drop);
+            this.Controls.Add(this.Create);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
@@ -254,5 +280,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button Create;
+        private System.Windows.Forms.Button Drop;
     }
 }

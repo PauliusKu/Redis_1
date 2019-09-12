@@ -2,15 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Redis_Client
 {
     public class ClientTracker
     {
         ISession session;
-        PreparedStatement insert1, insert2, insert3, select1, select2, select3, select4;
+        PreparedStatement create1, create2, create3, insert1, insert2, insert3, select1, select2, select3, select4, drop1, drop2, drop3, update1, update2, update3;
         DateTime start;
         int flId, clnId;
         bool isOrd;
@@ -19,13 +17,24 @@ namespace Redis_Client
         {
             session = DbConn.cluster.Connect();
 
+            create1 = session.Prepare("CREATE TABLE IF NOT EXISTS redis_fly.flight_to_client (flightId int, clnId int, startTime timestamp, durration double, PRIMARY KEY (flightId, clnId, startTime))");
+            create2 = session.Prepare("CREATE TABLE IF NOT EXISTS redis_fly.client_to_flight (flightId int, clnId int, startTime timestamp, durration double, PRIMARY KEY (clnId, flightId, startTime))");
+            create3 = session.Prepare("CREATE TABLE IF NOT EXISTS redis_fly.action_log(flightId int, clnId int, startTime timestamp, durration double, action int, PRIMARY KEY (clnId, flightId, startTime, action)) WITH CLUSTERING ORDER BY (flightId ASC, startTime DESC)");
+
             insert1 = session.Prepare("INSERT INTO redis_fly.flight_to_client (flightId, clnId, startTime, durration) values (?, ?, ?, ?)");
             insert2 = session.Prepare("INSERT INTO redis_fly.client_to_flight (flightId, clnId, startTime, durration) values (?, ?, ?, ?)");
             insert3 = session.Prepare("INSERT INTO redis_fly.action_log(flightId, clnId, startTime, durration, action) values(?, ?, ?, ?, ?)");
+
             select1 = session.Prepare("SELECT clnId, startTime, durration FROM redis_fly.flight_to_client WHERE flightId=?");
             select2 = session.Prepare("SELECT flightId, startTime, durration FROM redis_fly.client_to_flight WHERE clnid=?");
             select3 = session.Prepare("SELECT startTime, durration, action FROM redis_fly.action_log WHERE clnid=? AND flightId=?");
             select4 = session.Prepare("SELECT SUM(action) FROM redis_fly.action_log WHERE clnid=?");
+
+            drop1 = session.Prepare("DROP TABLE redis_fly.flight_to_client");
+            drop2 = session.Prepare("DROP TABLE redis_fly.client_to_flight");
+            drop3 = session.Prepare("DROP TABLE redis_fly.action_log");
+
+            //update1 = session.Prepare("UPDATE redis_fly.flight_to_client  SET durration = ? WHERE flightId = ? AND clnId = ? AND  IF durration = ?");
         }
 
         public void Start_Timer(int flightId, int clientId, bool isOrder)
@@ -77,6 +86,30 @@ namespace Redis_Client
             var statement = select4.Bind(clnId);
 
             return session.Execute(statement).ToList();
+        }
+
+        public void CreateTables()
+        {
+            var statement = create1.Bind();
+            session.Execute(statement);
+
+            statement = create2.Bind();
+            session.Execute(statement);
+
+            statement = create3.Bind();
+            session.Execute(statement);
+        }
+
+        public void DropTables()
+        {
+            var statement = drop1.Bind();
+            session.Execute(statement);
+
+            statement = drop2.Bind();
+            session.Execute(statement);
+
+            statement = drop3.Bind();
+            session.Execute(statement);
         }
     }
 }
