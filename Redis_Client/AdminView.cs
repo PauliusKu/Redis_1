@@ -171,5 +171,17 @@ namespace Redis_Client
 
             }
         }
+
+        private void Create_Click(object sender, EventArgs e)
+        {
+            AdminViewHelper admViewHelper = new AdminViewHelper();
+            admViewHelper.CreateCassandraTables();
+        }
+
+        private void Drop_Click(object sender, EventArgs e)
+        {
+            AdminViewHelper admViewHelper = new AdminViewHelper();
+            admViewHelper.DropCassandraTables();
+        }
     }
 }

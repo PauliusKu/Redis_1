@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Redis_Client
 {
@@ -209,6 +207,20 @@ namespace Redis_Client
             }
 
             return data;
+        }
+
+        public void CreateCassandraTables()
+        {
+            ClientTracker clnTrack = new ClientTracker();
+            clnTrack.Start_Tracking();
+            clnTrack.CreateTables();
+        }
+
+        public void DropCassandraTables()
+        {
+            ClientTracker clnTrack = new ClientTracker();
+            clnTrack.Start_Tracking();
+            clnTrack.DropTables();
         }
     }
 }

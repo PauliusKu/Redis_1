@@ -9,7 +9,7 @@ namespace Redis_Client
     class ClientViewHelper
     {
         int clnId = -1;
-        int companyAcountId = 9999;
+        int companyAcountId = 1000000;
         AppError appErr = new AppError();
         ClientUtil clnUtil = new ClientUtil();
         ClientTracker clnTrack;
